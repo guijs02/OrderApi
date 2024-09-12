@@ -15,8 +15,7 @@ namespace OrderApi.Migrations
                 name: "Customer",
                 columns: table => new
                 {
-                    Id = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
                     Name = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Cpf = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Category = table.Column<string>(type: "nvarchar(max)", nullable: false)
@@ -32,6 +31,7 @@ namespace OrderApi.Migrations
                 {
                     Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
                     SaleDate = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    CustomerId1 = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
                     CustomerId = table.Column<int>(type: "int", nullable: false),
                     TotalAmount = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
                     Discount = table.Column<decimal>(type: "decimal(18,2)", nullable: false)
@@ -40,8 +40,8 @@ namespace OrderApi.Migrations
                 {
                     table.PrimaryKey("PK_Orders", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_Orders_Customer_CustomerId",
-                        column: x => x.CustomerId,
+                        name: "FK_Orders_Customer_CustomerId1",
+                        column: x => x.CustomerId1,
                         principalTable: "Customer",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
@@ -75,9 +75,9 @@ namespace OrderApi.Migrations
                 column: "OrderId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Orders_CustomerId",
+                name: "IX_Orders_CustomerId1",
                 table: "Orders",
-                column: "CustomerId");
+                column: "CustomerId1");
         }
 
         /// <inheritdoc />

@@ -1,4 +1,6 @@
-﻿namespace OrderApi.Extension
+﻿using Microsoft.AspNetCore.Diagnostics;
+
+namespace OrderApi.Extension
 {
     public static class AppExtension
     {
@@ -6,6 +8,29 @@
         {
             app.UseSwagger();
             app.UseSwaggerUI();
+        }
+        public static async Task ExceptionHandler(this WebApplication app)
+        {
+            app.UseExceptionHandler(appError =>
+            {
+                appError.Run(async context =>
+                {
+                    var contextFeature = context.Features.Get<IExceptionHandlerFeature>();
+                    if (contextFeature != null)
+                    {
+                        context.Response.StatusCode = StatusCodes.Status500InternalServerError;
+                        context.Response.ContentType = "application/json";
+
+                        await context.Response.WriteAsJsonAsync(new
+                        {
+                            code = context.Response.StatusCode,
+                            Message = "Interval Server Error. Please try again later."
+                        });
+
+                    }
+                });
+            });
+            await Task.CompletedTask;
         }
     }
 }

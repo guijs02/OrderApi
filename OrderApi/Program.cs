@@ -23,4 +23,6 @@ app.UseAuthorization();
 
 app.MapControllers();
 
+await app.ExceptionHandler();
+
 app.Run();
