@@ -15,7 +15,37 @@ namespace OrderApi.Services
             var orderObj = dto.ToOrder();
             var DiscountOrder = new DiscountManager().Discount(orderObj);
             DiscountOrder.Discount = DiscountOrder.Discount.RoundToTwoDecimalPlaces();
-            return await _orderRepository.ProcessSaleAsync(DiscountOrder);
+            var response = await _orderRepository.ProcessSaleAsync(DiscountOrder);
+
+            //if (response.Data != null)
+            //{
+            //    BillingSummary summary = new BillingSummary()
+            //    {
+            //        Discount = response.Data.Discount,
+            //        Itens = response.Data.Itens.ToItensSummary(),
+            //        TotalAmount = response.Data.TotalAmount - response.Data.Discount,
+            //        Id = response.Data.Id,
+            //        SubTotal = response.Data.TotalAmount,
+            //    };
+
+            //    var result = await SentSummaryToServiceBillingAsync(summary);
+
+            //    return new Response<Order>(orderObj);
+
+            //}
+
+            return response;
         }
+
+        public async Task<PagedResponse<List<Order>>> GetOrdersAsync(int pageNumber, int pageSize)
+        {
+            return await _orderRepository.GetAllByPagedAsync(pageNumber, pageSize);
+        }
+
+        public async Task<Response<Order>> GetOrderAsync(Guid id)
+        {
+            return await _orderRepository.GetOrderAsync(id);
+        }
+
     }
 }

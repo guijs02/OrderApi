@@ -1,5 +1,6 @@
 ﻿using OrderApi.Core.Dtos;
 using OrderApi.Core.Models;
+using OrderApi.Core.Summary;
 
 namespace OrderApi.Core.Extension
 {
@@ -14,7 +15,13 @@ namespace OrderApi.Core.Extension
                  Amount = d.Amount,
              })
            .ToList();
-
+        public static List<ItensSummary> ToItensSummary(this List<Itens> dtos) =>
+             dtos.Select(i => new ItensSummary
+             {
+                 Price = i.Price,
+                 Amount = i.Amount,
+             })
+           .ToList();
         public static Order ToOrder(this CreateOrderDto dto) =>
              new Order
              {

@@ -1,4 +1,4 @@
-﻿namespace OrderApi.Configuration
+﻿namespace OrderApi.Config
 {
     public static class Configuration
     {

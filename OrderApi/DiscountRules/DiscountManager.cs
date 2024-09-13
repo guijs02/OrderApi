@@ -6,7 +6,7 @@ namespace OrderApi.DiscountRules
     {
         public Order Discount(Order order)
         {
-            IDiscount regularDiscount = new RegularDiscount(new PremiumDiscount());
+            IDiscount regularDiscount = new RegularDiscount();
             var orderWithTotalAmount = new TotalAmountCalculator().Calculate(order);
             return regularDiscount.Discount(orderWithTotalAmount);
         }

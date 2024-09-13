@@ -7,13 +7,18 @@ namespace OrderApi.DiscountRules
         public IDiscount NextDiscount { get; set; }
         public Order Discount(Order order)
         {
-            if (string.Equals(nameof(ECategory.Vip),
-              order.Customer.Category, StringComparison.CurrentCultureIgnoreCase))
+            if (HasDiscount(order))
             {
                 order.Discount = order.TotalAmount * 0.15m;
                 return order;
             }
             return order;
         }
+
+        public bool HasDiscount(Order order) =>
+            string.Equals(nameof(ECategory.Regular),
+            order.Customer.Category, StringComparison.CurrentCultureIgnoreCase)
+            && order.TotalAmount > 500;
     }
+
 }

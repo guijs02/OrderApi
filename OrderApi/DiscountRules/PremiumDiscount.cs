@@ -10,14 +10,17 @@ namespace OrderApi.DiscountRules
         {
             NextDiscount = new VipDiscount();
 
-            if (string.Equals(nameof(ECategory.Premium),
-            order.Customer.Category, StringComparison.CurrentCultureIgnoreCase) &&
-            order.TotalAmount > 300)
+            if (HasDiscount(order))
             {
                 order.Discount = order.TotalAmount * 0.1m;
                 return order;
             }
             return NextDiscount.Discount(order);
         }
+
+        public bool HasDiscount(Order order) =>
+          string.Equals(nameof(ECategory.Premium),
+          order.Customer.Category, StringComparison.CurrentCultureIgnoreCase)
+          && order.TotalAmount > 300;
     }
 }
