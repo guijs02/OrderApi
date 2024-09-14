@@ -1,4 +1,5 @@
-﻿using OrderApi.Core.Models;
+﻿using OrderApi.Core.Enum;
+using OrderApi.Core.Models;
 
 namespace OrderApi.DiscountRules
 {
@@ -10,5 +11,9 @@ namespace OrderApi.DiscountRules
             var orderWithTotalAmount = new TotalAmountCalculator().Calculate(order);
             return regularDiscount.Discount(orderWithTotalAmount);
         }
+
+        public static bool IsCustomerOfCategory(Order order, ECategory category) =>
+         string.Equals(category.ToString(),
+            order.Customer.Category, StringComparison.CurrentCultureIgnoreCase);
     }
 }

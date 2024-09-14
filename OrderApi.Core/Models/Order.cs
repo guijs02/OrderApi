@@ -20,7 +20,6 @@ namespace OrderApi.Core.Models
         public decimal TotalAmount { get; set; }
         [JsonPropertyName("Desconto")]
         public decimal Discount { get; set; }
-        [JsonIgnore]
         public bool Status { get; set; }
 
     }

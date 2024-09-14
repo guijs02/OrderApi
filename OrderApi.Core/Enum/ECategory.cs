@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel;
 
-namespace OrderApi.Core.Models
+namespace OrderApi.Core.Enum
 {
     public enum ECategory
     {
