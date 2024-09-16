@@ -1,4 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using OrderApi.Config;
 using OrderApi.Context;
 using OrderApi.Core.Interfaces.Repositories;
 using OrderApi.Core.Interfaces.Services;
@@ -29,7 +30,7 @@ namespace OrderApi.Extension
                 .AddDbContext<AppDbContext>(
                  options =>
                  {
-                     options.UseSqlServer(builder.Configuration.GetConnectionString("Connection"));
+                     options.UseSqlServer(builder.Configuration.GetConnectionString(Configuration.DbConfig));
                  });
         }
     }

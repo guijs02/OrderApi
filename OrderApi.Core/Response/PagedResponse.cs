@@ -2,7 +2,7 @@
 {
     public class PagedResponse<TData> : Response<TData> where TData : class
     {
-        public PagedResponse(TData? datas, int pageNumber = 1, int pageSize = 5, int totalPages = 10) : base(datas, message: "Recuperado com sucesso")
+        public PagedResponse(TData? datas, int pageNumber = 1, int pageSize = 5, int totalPages = 10) : base(datas, message: ResponseMessages.OrderFoundWithSuccess)
         {
             Data = datas;
             PageNumber = pageNumber;

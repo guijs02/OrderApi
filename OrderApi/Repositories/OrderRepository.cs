@@ -35,9 +35,9 @@ namespace OrderApi.Repositories
                                                  .FirstOrDefaultAsync(w => w.Id == id);
 
             return order is null ?
-                            new Response<Order>(null, "Pedido não encontrado", StatusCodes.Status404NotFound)
+                            new Response<Order>(null, ResponseMessages.OrderNotFound, StatusCodes.Status404NotFound)
                             :
-                            new Response<Order>(order, "Pedido recuperado com sucesso!");
+                            new Response<Order>(order);
         }
 
         public async Task<Response<Order>> ProcessSaleAsync(Order order)
@@ -45,6 +45,11 @@ namespace OrderApi.Repositories
             try
             {
                 await context.Database.BeginTransactionAsync();
+
+                if (await VerifyClientIdAlreadyExists(order.Customer.Id))
+                {
+                    return new Response<Order>(null, ResponseMessages.ClientIdAlreadyExist, StatusCodes.Status409Conflict);
+                }
 
                 var orderObj = context.Orders.Add(order);
                 await context.SaveChangesAsync();
@@ -67,7 +72,7 @@ namespace OrderApi.Repositories
 
                 await context.Database.CommitTransactionAsync();
 
-                return new Response<Order>(orderObj.Entity, "Venda processada com sucesso!", StatusCodes.Status201Created);
+                return new Response<Order>(orderObj.Entity, ResponseMessages.OrderProcessedWithSuccess, StatusCodes.Status201Created);
             }
             catch (Exception e)
             {
@@ -94,5 +99,7 @@ namespace OrderApi.Repositories
                 return new ResponseBillingApi(false, e.Message);
             }
         }
+        public async Task<bool> VerifyClientIdAlreadyExists(Guid id) =>
+             await context.Orders.AnyAsync(a => a.Customer.Id == id);
     }
 }

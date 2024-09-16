@@ -2,6 +2,5 @@
 {
     public record ResponseBillingApi(bool isSuccess, string? errorMessage)
     {
-        
     }
 }
