@@ -8,7 +8,7 @@ O **OrderApi** é uma API construída em .NET, com foco em operações de pedido
 - **OrderApi.Core** — projeto de núcleo (core) que contém modelos de domínio, interfaces, serviços abstratos e lógica compartilhada.  
 - **OrderApi** — projeto Web API, onde ficam os controladores, endpoints REST, DI (injeção de dependência), configurações e startup.
 
-Este formato segue princípios como Clean Architecture e Domain-Driven Design (DDD) para garantir código organizado e de fácil evolução.
+Este formato segue princípios como CleanCode para garantir código organizado e de fácil evolução.
 
 ---
 
